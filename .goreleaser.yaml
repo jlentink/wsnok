@@ -4,6 +4,10 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
+    goarch:
+      - amd64
+      - arm64
+
     goos:
       - linux
       - windows
@@ -14,7 +18,7 @@ archives:
   - format: tar.gz
     name_template: >-
       {{ .ProjectName }}_
-      {{- title .Os }}_
+      {{- .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
