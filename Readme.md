@@ -12,5 +12,5 @@ wsnok [OPTION]... [URL]...
 ## Example
 Download the ubuntu iso file with 50 threads.
 ```shell
-/wsnok -t50 https://releases.ubuntu.com/22.04.2/ubuntu-22.04.2-desktop-amd64.iso
+wsnok -t50 https://releases.ubuntu.com/22.04.2/ubuntu-22.04.2-desktop-amd64.iso
 ```
