@@ -119,7 +119,7 @@ func writeChunks() {
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0644)
 	defer file.Close()
 	if err != nil {
-		printline.Printf(false, "Error opening file:", err)
+		printline.Printf(false, "Error opening file: %s", err)
 		return
 	}
 	for _, chunk := range _chunks {
