@@ -46,6 +46,7 @@ func getFilenameIncrement(filename string, increment int) string {
 
 // Snok downloads a file from a URL
 func Snok(url string) error {
+	printline.Debug = Debug
 	start := time.Now()
 	allowsChunks, size, err := head(url)
 	if err != nil {
@@ -79,10 +80,10 @@ func Snok(url string) error {
 		progressbar.OptionSetWidth(10),
 		progressbar.OptionFullWidth(),
 		progressbar.OptionShowBytes(true),
-		progressbar.OptionThrottle(65*time.Millisecond),
 		progressbar.OptionOnCompletion(func() {
 			fmt.Fprint(os.Stderr, "\n")
 		}),
+		progressbar.OptionThrottle(65*time.Millisecond),
 		progressbar.OptionSetTheme(progressbar.Theme{
 			Saucer:        "=",
 			SaucerHead:    ">",
@@ -109,7 +110,11 @@ func Snok(url string) error {
 func worker(id int, work chan *Chunk, wg *sync.WaitGroup) {
 	for job := range work {
 		printline.Printf(true, "Downloading chunk %d:%+v\n", id, job)
-		downloadRange(job)
+		err := downloadRange(job)
+		if err != nil {
+			printline.Printf(false, "Error downloading chunk: %s", err)
+			os.Exit(1)
+		}
 	}
 	wg.Done()
 }
@@ -117,14 +122,19 @@ func worker(id int, work chan *Chunk, wg *sync.WaitGroup) {
 func writeChunks() {
 	filename := Filename(_chunks[0].Url)
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0644)
-	defer file.Close()
+
+	defer closeCheck(file)
 	if err != nil {
 		printline.Printf(false, "Error opening file: %s", err)
 		return
 	}
 	for _, chunk := range _chunks {
 		printline.Printf(true, "Writing chunk %+v\n", chunk.Index)
-		file.Write(chunk.Data)
+		_, err := file.Write(chunk.Data)
+		if err != nil {
+			printline.Printf(false, "Error writing chunk: %s", err)
+			os.Exit(1)
+		}
 	}
 }
 
@@ -198,4 +208,11 @@ func downloadRange(chunk *Chunk) error {
 		return err
 	}
 	return nil
+}
+
+func closeCheck(c io.Closer) {
+	err := c.Close()
+	if err != nil {
+		printline.Printf(false, "Error closing: %s", err)
+	}
 }

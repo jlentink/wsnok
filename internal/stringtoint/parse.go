@@ -24,7 +24,7 @@ func Parse(s string) (int64, error) {
 		return -1, fmt.Errorf("unknown format")
 	}
 
-	switch s[len(s)-1 : len(s)] {
+	switch s[len(s)-1:] {
 	case "b":
 		return calculateBytes(s, 1)
 	case "k":

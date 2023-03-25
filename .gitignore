@@ -20,3 +20,4 @@ go.work
 # Goland
 .idea
 /dist/
+/cmd/wsnok/wsnok

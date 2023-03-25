@@ -73,7 +73,10 @@ func wPull(cmd *cobra.Command, args []string) {
 	snok.Username = username
 	snok.Password = password
 	for _, url := range args {
-		snok.Snok(url)
+		err := snok.Snok(url)
+		if err != nil {
+			printline.Printf(false, "Could not download file: %s (%s)\n", url, err.Error())
+		}
 	}
 
 	os.Exit(0)
