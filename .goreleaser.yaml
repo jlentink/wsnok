@@ -37,6 +37,19 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+brews:
+  -
+    goamd64: v3
+    tap:
+      owner: jlentink
+      name: homebrew-wsnok
+      branch: main
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    homepage: "https://github.com/jlentink/wsnok"
+    description: "wget with threads and progress bar"
+    license: "MIT"
+    dependencies:
+      - name: go
 
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
