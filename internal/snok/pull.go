@@ -11,8 +11,8 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"wpull/internal/printline"
-	"wpull/internal/uniquefilename"
+	"wsnok/internal/printline"
+	"wsnok/internal/uniquefilename"
 )
 
 var Debug = false
