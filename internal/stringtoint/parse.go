@@ -40,7 +40,7 @@ func Parse(s string) (int64, error) {
 	}
 }
 
-func calculateBytes(s string, multiplier int) (int64, error) {
+func calculateBytes(s string, multiplier int64) (int64, error) {
 	s = s[0 : len(s)-1]
 	number, err := strconv.ParseInt(s, 10, 64)
 	if err != nil {

@@ -5,9 +5,9 @@ import (
 	"github.com/logrusorgru/aurora/v4"
 	"github.com/spf13/cobra"
 	"os"
-	"wpull/internal/printline"
-	"wpull/internal/snok"
-	"wpull/internal/stringtoint"
+	"wsnok/internal/printline"
+	"wsnok/internal/snok"
+	"wsnok/internal/stringtoint"
 )
 
 var (
@@ -19,6 +19,8 @@ var (
 	chunkSizeStr       string
 	username, password string
 	version            = "dev"
+	commit             = "unknown"
+	date               = "unknown"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -53,7 +55,7 @@ func init() {
 func wPull(cmd *cobra.Command, args []string) {
 
 	if versionFlag {
-		fmt.Printf("Wsnok %s\n", version)
+		fmt.Printf("Wsnok %s (built: %s, commit: %s)\n", version, date, commit)
 		os.Exit(0)
 	}
 

@@ -3,7 +3,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "wpull/cmd/wsnok/cmd"
+import "wsnok/cmd/wsnok/cmd"
 
 func main() {
 	cmd.Execute()

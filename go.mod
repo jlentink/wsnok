@@ -1,4 +1,4 @@
-module wpull
+module wsnok
 
 go 1.20
 

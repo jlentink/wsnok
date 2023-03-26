@@ -1,18 +1,28 @@
 before:
   hooks:
     - go mod tidy
+env_files:
+  github_token: ~/GITHUB_TOKEN
 builds:
-  - env:
-      - CGO_ENABLED=0
-    goarch:
-      - amd64
-      - arm64
-
-    goos:
-      - linux
-      - windows
-      - darwin
-    main: ./cmd/wsnok
+    -
+      id: "wsnok"
+      env:
+        - CGO_ENABLED=0
+      goos:
+        - linux
+        - windows
+        - darwin
+      goarch:
+        - amd64
+        - arm64
+      ignore:
+        - goos: windows
+          goarch: arm64
+        - goos: linux
+          goarch: 386
+      main: ./cmd/wsnok
+      ldflags:
+        - -s -w -X wsnok/cmd/wsnok/cmd.version={{.Version}} -X wsnok/cmd/wsnok/cmd.commit={{.Commit}} -X wsnok/cmd/wsnok/cmd.date={{.Date}}
 
 archives:
   - format: tar.gz
@@ -50,7 +60,6 @@ brews:
     license: "MIT"
     dependencies:
       - name: go
-
 # The lines beneath this are called `modelines`. See `:help modeline`
 # Feel free to remove those if you don't want/use them.
 # yaml-language-server: $schema=https://goreleaser.com/static/schema.json
